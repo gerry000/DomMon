@@ -1,0 +1,8 @@
+<% @nodes.each do |node| %>
+	<div>
+	        <%= node.nodename %>
+		<%= node.bladenumber %>
+	       	<%= node.processor_type %>
+	        <%= node.max_memory %>
+	</div>
+<% end %>
