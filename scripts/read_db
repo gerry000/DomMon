@@ -1,0 +1,8 @@
+require 'mysql'
+  
+#my = Mysql.new(hostname, username, password, databasename)  
+con = Mysql.new('localhost', 'dommondba', 'ch4ng3m£', 'DomMon')  
+rs = con.query('select * from ldoms')  
+rs.each_hash { |h| puts h['hostname']}  
+con.close  
+
