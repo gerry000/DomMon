@@ -1,21 +1,6 @@
 // Place all the styles related to the welcome controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-html,body {
-    height: 100%;
-    margin-top: 2px;
-    margin-right: 2px;
-    margin-bottom: 2px;
-    margin-left: 2px;
-}
-
-#header {
-    height: 10%;
-    background-color:black;
-    color:white;
-    text-align:center;
-    padding:0px;	 
-}
 #nav {
     width: 10%;
     height: 80%;
@@ -23,17 +8,10 @@ html,body {
     float:left;
     padding:0px;	      
 }
+
 #section {
     height:80%;
     width:90%;
     float:left;
-    padding:0px;	 	 
-}
-#footer {
-    height:5%;
-    background-color:black;
-    color:white;
-    clear:both;
-    text-align:left;
     padding:0px;	 	 
 }

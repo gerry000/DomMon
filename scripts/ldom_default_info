@@ -1,0 +1,34 @@
+require 'active_record'  
+
+hostname, default_node = ""
+$ldom_layout = Hash.new  
+$ldom_layout_file = '/var/rails/DomMon/mnt/ldoms/shared/etc/default_layout'
+
+File.open($ldom_layout_file) do |f|
+	f.each_line do |line|
+		line.chomp!
+		hostname, default_node = line.split()
+		$ldom_layout.merge! hostname => default_node
+	end
+end
+
+
+ActiveRecord::Base.establish_connection(  
+:adapter => "mysql",  
+:host => "localhost",  
+:database => "DomMon",
+:username => "dommondba",
+:password => "ch4ng3m£"
+)  
+  
+class Ldoms < ActiveRecord::Base  
+end
+
+$ldom_layout.each do |guest, node|
+#	puts guest
+#	puts node
+##	Ldoms.update(:hostname => key, :running_node => value[:current_node], :used_mem => value[:memory] , :util => value[:util], :norm => value[:norm], :uptime => value[:uptime])
+#	ldom = Ldoms.find_by(hostname: guest)
+	ldom = Ldoms.all
+	print ldom
+end

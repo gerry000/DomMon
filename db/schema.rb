@@ -35,22 +35,4 @@ ActiveRecord::Schema.define(version: 20151015114416) do
     t.datetime "updated_at",                 null: false
   end
 
-  create_table "solaris11s", force: :cascade do |t|
-    t.string   "nodename",       limit: 255
-    t.integer  "bladenumber",    limit: 4
-    t.string   "processor_type", limit: 255
-    t.integer  "max_memory",     limit: 4
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-  end
-
-  create_table "solaris_11s", force: :cascade do |t|
-    t.string   "nodename",       limit: 255
-    t.integer  "bladenumber",    limit: 4
-    t.string   "processor_type", limit: 255
-    t.integer  "max_memory",     limit: 4
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-  end
-
 end

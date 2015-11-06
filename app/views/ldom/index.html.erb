@@ -1,14 +1,11 @@
-<div id="header">
-<h1>Welcome to CiCS Cloud Monitoring Station<br>
-For Solaris 11 Ldoms </h1>
-</div>
+<% @page_title = "Solaris 11 Ldoms" %>
 
-<div id="section">
-<table width="100%">
+<h4>Sorted by <%= sort_column %></h4>
+<table>
 	<tr>
-		<th>Hostname</th>	
+		<th><%= sortable "hostname" %></th>	
 		<th>default_node</th>	
-		<th>running_node</th>	
+		<th><%= sortable "running_node" %></th>	
 		<th>allocated_mem</th>	
 		<th>used_mem</th>	
 		<th>util</th>	
@@ -16,7 +13,7 @@ For Solaris 11 Ldoms </h1>
 		<th>uptime</th>	
 	</tr>
 
-	<% @ldoms.each do |ldom| %>
+	<% for ldom in @ldoms %>
 	<tr>
 		<td><%= ldom.hostname %></td>
 		<td><%= ldom.default_node %></td>
@@ -29,5 +26,3 @@ For Solaris 11 Ldoms </h1>
 	</tr>
 	<% end %>
 </table>
-
-

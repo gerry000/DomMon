@@ -1,4 +1,4 @@
-require 'active_record'  
+equire 'active_record'  
   
 $ldom_status_file = '/var/rails/DomMon/tmp/ldom-shared/tmp/ldoms.status'
 current_node,state, flags, cons, vcpu, memory, util, norm, uptime = ""
