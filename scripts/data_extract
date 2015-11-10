@@ -1,69 +1,138 @@
-equire 'active_record'  
+require 'active_record'  
+
+Debug_lvl = 0
   
-$ldom_status_file = '/var/rails/DomMon/tmp/ldom-shared/tmp/ldoms.status'
-current_node,state, flags, cons, vcpu, memory, util, norm, uptime = ""
-Nodes = Hash.new
+$ldom_single_truth = '/var/rails/DomMon/mnt/ldoms/shared/etc/default_layout'
+$ldom_status_globpath = '/var/rails/DomMon/mnt/ldoms/shared/tmp/*.ldoms.status'
+$ldom_home = Hash.new
 Ldomstat = Hash.new
+current_node,state, flags, cons, vcpu, memory, util, norm, uptime = ""
 
-File.open($ldom_status_file) do |f|
-	f.each_line do |line|
-		line.chomp!
+## Creates a hash of ldoms from the single truth file stored on the NetApp
 
-# Collect node information
-		if line =~ /HOST/
-			label, current_node = line.split()
-#			puts "Current node  #{current_node}"
-			Nodes[current_node] = ["vCPU" => 0, "Memory" => 0]
-		end
-		if line =~ /vCPUS/
-			label, free_cpu, label, used_cpu, label, total_cpu, lable = line.split()
-#			puts "#{free_cpu} Free #{used_cpu} used from #{total_cpu}"
-			mem = ["vCPU" => 3, "Memory" => 2]
-#			Nodes.merge(mem)
-		end
-		if line =~ /Memory/
-			label, free_mem, flabel, flabel, used_mem, ulabel, ulabel, total_mem, tlable = line.split()
-#			puts "#{free_mem} Free #{used_mem} used from #{total_mem}"
-#			Nodes[current_node] = {"Memory" = [free_mem,used_mem,total_mem]}
-		end
+File.open($ldom_single_truth) do |f|
+        f.each_line do |line|
+                line.chomp!
+                hostname, home_node = line.split()
+                $ldom_home.merge!(hostname => home_node)
+        end
+end
 
+if Debug_lvl != 0 
+	$ldom_home.each do |key, value|
+		puts "#{key}:#{value}"
+	end
+end
 
-# Collect ldom inforamtion
-		if line =~ /active/
-			hostname, state, flags, cons, vcpu, memory, util, norm, uptimed, uptimeh, uptimem = line.split()
-			uptime = [uptimed, uptimeh, uptimem].join
-#			puts "ldom #{hostname} #{current_node} #{state} #{flags} #{cons} #{vcpu} #{memory} #{util} #{norm} #{uptimed} #{uptime}"
-			Ldomstat[hostname] = {:current_node => current_node, :state => state, :flags => flags, :cons => cons, :vcpu => vcpu, :memory => memory, :util => util, :norm => norm, :uptime => uptime}
-		end
-		if line =~ /CLUSTER TOTALS/
-			break
+## Read node output files to get the status of Ldoms
+
+Dir.glob($ldom_status_globpath) do |my_text_file|
+	puts "working on: #{my_text_file}..." if Debug_lvl != 0
+	
+	current_node = my_text_file.gsub(%r{.*/|\..*$},'')
+	File.open(my_text_file) do |f|
+		f.each_line do |line|
+			line.chomp!
+			if line =~ /active/
+				hostname, state, flags, cons, vcpu, memory, util, norm, uptimed, uptimeh, uptimem = line.split()
+				uptime = [uptimed, uptimeh, uptimem].join
+				default_node = $ldom_home[hostname]
+#				puts "ldom #{hostname} D #{default_node} C #{current_node} #{state} #{flags} #{cons} #{vcpu} #{memory} #{util} #{norm} #{uptimed} #{uptime}"
+				Ldomstat[hostname] = {:default_node => default_node, :current_node => current_node, :state => state, :flags => flags, :cons => cons, :vcpu => vcpu, :memory => memory, :util => util, :norm => norm, :uptime => uptime}
+			end
 		end
 	end
 end
 
-ActiveRecord::Base.establish_connection(  
-:adapter => "mysql",  
-:host => "localhost",  
+if Debug_lvl != 0 
+	Ldomstat.each do |key, value|
+		puts "#{key}:#{value}"
+	end
+end
+
+ActiveRecord::Base.establish_connection(
+:adapter => "mysql",
+:host => "localhost",
 :database => "DomMon",
 :username => "dommondba",
 :password => "ch4ng3m£"
-)  
-  
-class Ldoms < ActiveRecord::Base  
+)
+
+class Ldoms < ActiveRecord::Base
 end
 
 Ldoms.delete_all()
 
 Ldomstat.each do |key, value|
-#	puts value[:memory]
-	Ldoms.create(:hostname => key, :running_node => value[:current_node], :used_mem => value[:memory] , :util => value[:util], :norm => value[:norm], :uptime => value[:uptime])
+  Ldoms.create(:hostname => key, :default_node => value[:default_node], :running_node => value[:current_node], :flags => value[:flags], :allocated_mem => value[:memory], :util => value[:util], :norm => value[:norm], :uptime => value[:uptime])
 end
 
-#        t.string   :hostname
-#        t.string   :default_node
-#        t.string   :running_node
-#        t.integer  :allocated_mem
-#        t.integer  :used_mem
-#        t.integer  :util
-#        t.integer  :norm
+
+
+
+#current_node,state, flags, cons, vcpu, memory, util, norm, uptime = ""
+#Nodes = Hash.new
+#Ldomstat = Hash.new
+#
+#File.open($ldom_status_file) do |f|
+#	f.each_line do |line|
+#		line.chomp!
+#
+## Collect node information
+#		if line =~ /HOST/
+#			label, current_node = line.split()
+##			puts "Current node  #{current_node}"
+#			Nodes[current_node] = ["vCPU" => 0, "Memory" => 0]
+#		end
+#		if line =~ /vCPUS/
+#			label, free_cpu, label, used_cpu, label, total_cpu, lable = line.split()
+##			puts "#{free_cpu} Free #{used_cpu} used from #{total_cpu}"
+#			mem = ["vCPU" => 3, "Memory" => 2]
+##			Nodes.merge(mem)
+#		end
+#		if line =~ /Memory/
+#			label, free_mem, flabel, flabel, used_mem, ulabel, ulabel, total_mem, tlable = line.split()
+##			puts "#{free_mem} Free #{used_mem} used from #{total_mem}"
+##			Nodes[current_node] = {"Memory" = [free_mem,used_mem,total_mem]}
+#		end
+#
+#
+## Collect ldom inforamtion
+#		if line =~ /active/
+#			hostname, state, flags, cons, vcpu, memory, util, norm, uptimed, uptimeh, uptimem = line.split()
+#			uptime = [uptimed, uptimeh, uptimem].join
+##			puts "ldom #{hostname} #{current_node} #{state} #{flags} #{cons} #{vcpu} #{memory} #{util} #{norm} #{uptimed} #{uptime}"
+#			Ldomstat[hostname] = {:current_node => current_node, :state => state, :flags => flags, :cons => cons, :vcpu => vcpu, :memory => memory, :util => util, :norm => norm, :uptime => uptime}
+#		end
+#		if line =~ /CLUSTER TOTALS/
+#			break
+#		end
+#	end
+#end
+#
+#ActiveRecord::Base.establish_connection(  
+#:adapter => "mysql",  
+#:host => "localhost",  
+#:database => "DomMon",
+#:username => "dommondba",
+#:password => "ch4ng3m£"
+#)  
+#  
+#class Ldoms < ActiveRecord::Base  
+#end
+#
+#Ldoms.delete_all()
+#
+#Ldomstat.each do |key, value|
+##	puts value[:memory]
+#	Ldoms.create(:hostname => key, :running_node => value[:current_node], :used_mem => value[:memory] , :util => value[:util], :norm => value[:norm], :uptime => value[:uptime])
+#end
+#
+##        t.string   :hostname
+##        t.string   :default_node
+##        t.string   :running_node
+##        t.integer  :allocated_mem
+##        t.integer  :used_mem
+##        t.integer  :util
+##        t.integer  :norm
 #        t.string   :uptime

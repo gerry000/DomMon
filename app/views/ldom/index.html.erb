@@ -1,26 +1,33 @@
 <% @page_title = "Solaris 11 Ldoms" %>
-
 <h4>Sorted by <%= sort_column %></h4>
 <table>
 	<tr>
 		<th><%= sortable "hostname" %></th>	
-		<th>default_node</th>	
+		<th><%= sortable "default_node" %></th>	
 		<th><%= sortable "running_node" %></th>	
-		<th>allocated_mem</th>	
-		<th>used_mem</th>	
-		<th>util</th>	
-		<th>norm</th>	
-		<th>uptime</th>	
+		<th>Flags</th>	
+		<th>Allocated Memory</th>	
+		<th>Util %</th>	
+		<th>Norm %</th>	
+		<th>Uptime</th>	
 	</tr>
 
 	<% for ldom in @ldoms %>
 	<tr>
 		<td><%= ldom.hostname %></td>
 		<td><%= ldom.default_node %></td>
-   	<td><%= ldom.running_node %></td>
+		<% if ldom.running_node != ldom.default_node %>   	
+			<td class="red"><%= ldom.running_node %></td>
+		<% else %>
+			<td><%= ldom.running_node %></td>
+		<% end %>
+	   <td><%= ldom.flags %></td>
 	   <td><%= ldom.allocated_mem %></td>
-	   <td><%= ldom.used_mem %></td>
-	   <td><%= ldom.util %></td>
+		<% if ldom.util >= 90 %>
+		   <td class="alertred"><%= ldom.util %></td>
+		<% else %>
+			<td><%= ldom.util %></td>
+		<% end %>
 	   <td><%= ldom.norm %></td>
 	   <td><%= ldom.uptime %></td>
 	</tr>

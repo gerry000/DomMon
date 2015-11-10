@@ -3,22 +3,42 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 table {
     width:100%;
-}
-table, th, td {
     border: 1px solid black;
     border-collapse: collapse;
 }
+table tr:nth-child(even) {
+    background-color: #eee;
+}
+table tr:nth-child(odd) {
+   background-color:#fff;
+}
+table th	{
+    background-color: black;
+    color: white;
+}
+
 th, td {
     padding: 5px;
     text-align: left;
+    border: 1px solid black;
+    border-collapse: collapse;
 }
-table#t01 tr:nth-child(even) {
-    background-color: #eee;
-}
-table#t01 tr:nth-child(odd) {
-   background-color:#fff;
-}
-table#t01 th	{
-    background-color: black;
+a:-webkit-any-link {
     color: white;
+    cursor: auto;
+}
+
+td.state {
+}
+.red {
+    color: #f00;
+}
+.alertred {
+    background-color: #f77;
+}
+.yellow {
+    color: #ff9;
+}
+.green {
+    color: #9f9;
 }

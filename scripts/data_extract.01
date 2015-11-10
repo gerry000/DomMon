@@ -1,0 +1,70 @@
+require 'active_record'  
+  
+$ldom_layout_file = '/var/rails/DomMon/mnt/ldoms/shared/etc/default_layout'
+$ldom_status_file = '/var/rails/DomMon/mnt/ldoms/shared/tmp/ldoms.status'
+current_node,state, flags, cons, vcpu, memory, util, norm, uptime = ""
+Nodes = Hash.new
+Ldomstat = Hash.new
+
+File.open($ldom_status_file) do |f|
+	f.each_line do |line|
+		line.chomp!
+
+# Collect node information
+		if line =~ /HOST/
+			label, current_node = line.split()
+#			puts "Current node  #{current_node}"
+			Nodes[current_node] = ["vCPU" => 0, "Memory" => 0]
+		end
+		if line =~ /vCPUS/
+			label, free_cpu, label, used_cpu, label, total_cpu, lable = line.split()
+#			puts "#{free_cpu} Free #{used_cpu} used from #{total_cpu}"
+			mem = ["vCPU" => 3, "Memory" => 2]
+#			Nodes.merge(mem)
+		end
+		if line =~ /Memory/
+			label, free_mem, flabel, flabel, used_mem, ulabel, ulabel, total_mem, tlable = line.split()
+#			puts "#{free_mem} Free #{used_mem} used from #{total_mem}"
+#			Nodes[current_node] = {"Memory" = [free_mem,used_mem,total_mem]}
+		end
+
+
+# Collect ldom inforamtion
+		if line =~ /active/
+			hostname, state, flags, cons, vcpu, memory, util, norm, uptimed, uptimeh, uptimem = line.split()
+			uptime = [uptimed, uptimeh, uptimem].join
+#			puts "ldom #{hostname} #{current_node} #{state} #{flags} #{cons} #{vcpu} #{memory} #{util} #{norm} #{uptimed} #{uptime}"
+			Ldomstat[hostname] = {:current_node => current_node, :state => state, :flags => flags, :cons => cons, :vcpu => vcpu, :memory => memory, :util => util, :norm => norm, :uptime => uptime}
+		end
+		if line =~ /CLUSTER TOTALS/
+			break
+		end
+	end
+end
+
+ActiveRecord::Base.establish_connection(  
+:adapter => "mysql",  
+:host => "localhost",  
+:database => "DomMon",
+:username => "dommondba",
+:password => "ch4ng3m£"
+)  
+  
+class Ldoms < ActiveRecord::Base  
+end
+
+Ldoms.delete_all()
+
+Ldomstat.each do |key, value|
+#	puts value[:memory]
+	Ldoms.create(:hostname => key, :running_node => value[:current_node], :used_mem => value[:memory] , :util => value[:util], :norm => value[:norm], :uptime => value[:uptime])
+end
+
+#        t.string   :hostname
+#        t.string   :default_node
+#        t.string   :running_node
+#        t.integer  :allocated_mem
+#        t.integer  :used_mem
+#        t.integer  :util
+#        t.integer  :norm
+#        t.string   :uptime
