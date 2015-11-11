@@ -1,7 +1,9 @@
 require 'active_record'  
+require 'yaml'  
 
 Debug_lvl = 0
-  
+
+dbconfig = YAML::load(File.open('config/database.yml'))  
 $ldom_single_truth = '/var/rails/DomMon/mnt/ldoms/shared/etc/default_layout'
 $ldom_status_globpath = '/var/rails/DomMon/mnt/ldoms/shared/tmp/*.ldoms.status'
 $ldom_home = Hash.new
@@ -50,20 +52,14 @@ if Debug_lvl != 0
 	end
 end
 
-## Opens the database connection for updating
+## Opens the database connection from the rails config
+## assignes the class and clears the last set of records
 
-ActiveRecord::Base.establish_connection(
-:adapter => "mysql",
-:host => "localhost",
-:database => "DomMon",
-:username => "dommondba",
-:password => "ch4ng3m£"
-)
-
-## Assignes the class and clears the last set of records
+ActiveRecord::Base.establish_connection( dbconfig['development'] )
 
 class Ldoms < ActiveRecord::Base
 end
+
 Ldoms.delete_all()
 
 ## Populates the table with the latest data in the hash

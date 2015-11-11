@@ -16,3 +16,7 @@
 !/log/.keep
 /tmp
 /mnt/*/*
+
+# Ignore configs with passwords or keys
+/config/*.yaml
+/config/*.key
