@@ -1,6 +1,5 @@
 # MySQL.  Versions 5.0+ are recommended.
 #
-#
 default: &default
   adapter: mysql2
   encoding: utf8
