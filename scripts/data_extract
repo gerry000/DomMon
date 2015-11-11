@@ -33,7 +33,7 @@ Dir.glob($ldom_status_globpath) do |my_text_file|
 	File.open(my_text_file) do |f|
 		f.each_line do |line|
 			line.chomp!
-			if line =~ /active/
+			if line =~ /active/ && line !~ /primary/
 				hostname, state, flags, cons, vcpu, memory, util, norm, uptimed, uptimeh, uptimem = line.split()
 				uptime = [uptimed, uptimeh, uptimem].join
 				default_node = $ldom_home[hostname]
@@ -50,6 +50,8 @@ if Debug_lvl != 0
 	end
 end
 
+## Opens the database connection for updating
+
 ActiveRecord::Base.establish_connection(
 :adapter => "mysql",
 :host => "localhost",
@@ -58,13 +60,24 @@ ActiveRecord::Base.establish_connection(
 :password => "ch4ng3m£"
 )
 
+## Assignes the class and clears the last set of records
+
 class Ldoms < ActiveRecord::Base
 end
-
 Ldoms.delete_all()
 
+## Populates the table with the latest data in the hash
+
 Ldomstat.each do |key, value|
-  Ldoms.create(:hostname => key, :default_node => value[:default_node], :running_node => value[:current_node], :flags => value[:flags], :allocated_mem => value[:memory], :util => value[:util], :norm => value[:norm], :uptime => value[:uptime])
+	Ldoms.create(:hostname => key, 
+		:default_node => value[:default_node], 
+		:running_node => value[:current_node], 
+		:vcpu => value[:vcpu], 
+		:flags => value[:flags], 
+		:allocated_mem => value[:memory], 
+		:util => value[:util], 
+		:norm => value[:norm], 
+		:uptime => value[:uptime])
 end
 
 

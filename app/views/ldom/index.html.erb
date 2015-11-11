@@ -6,6 +6,7 @@
 		<th><%= sortable "default_node" %></th>	
 		<th><%= sortable "running_node" %></th>	
 		<th>Flags</th>	
+		<th>Vcpu</th>	
 		<th>Allocated Memory</th>	
 		<th>Util %</th>	
 		<th>Norm %</th>	
@@ -22,6 +23,7 @@
 			<td><%= ldom.running_node %></td>
 		<% end %>
 	   <td><%= ldom.flags %></td>
+	   <td><%= ldom.vcpu %></td>
 	   <td><%= ldom.allocated_mem %></td>
 		<% if ldom.util >= 90 %>
 		   <td class="alertred"><%= ldom.util %></td>
