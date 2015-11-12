@@ -1,8 +1,19 @@
-<% @nodes.each do |node| %>
-	<div>
-	        <%= node.nodename %>
-		<%= node.bladenumber %>
-	       	<%= node.processor_type %>
-	        <%= node.max_memory %>
-	</div>
-<% end %>
+<% @page_title = "Solaris 11 Blades" %>
+<table>
+	<tr>
+		<th>Blade</th>	
+		<th>VCPUs</th>	
+		<th>Used VCPUs</th>	
+		<th>Memory</th>	
+		<th>Used Memory</th>	
+	</tr>
+
+	<% for node in @nodes %>
+	   <td><%= node.nodename %></td>
+	   <td><%= node.Vcpus %></td>
+	   <td><%= node.Used_vcpus %></td>
+	   <td><%= node.max_memory %></td>
+	   <td><%= node.Used_mem %></td>
+	</tr>
+	<% end %>
+</table>

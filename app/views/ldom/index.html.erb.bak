@@ -15,11 +15,11 @@
 
 	<% for ldom in @ldoms %>
 	<tr>
-		<td><%= ldom.hostname %> 
-			<%= image_tag("Prod.jpg", size: "100x80", align: "right", alt: "Production") if ldom.env == "Prod"%>
-			<%= image_tag("QA.jpg", size: "30", align: "right", alt: "QA") if ldom.env == "QA"%>
-			<%= image_tag("Dev.jpg", size: "30", align: "right", alt: "Dev") if ldom.env == "Dev"%>
-		</td>
+		<% if ldom.env == "Prod" %>
+			<td class="alertred"><%= ldom.hostname %></td>
+		<% else %>
+			<td><%= ldom.hostname %></td>
+		<% end %>
 		<td><%= ldom.default_node %></td>
 		<% if ldom.running_node != ldom.default_node %>   	
 			<td class="red"><%= ldom.running_node %></td>

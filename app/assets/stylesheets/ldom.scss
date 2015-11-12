@@ -27,6 +27,13 @@ a:-webkit-any-link {
     color: white;
     cursor: auto;
 }
+.pretty th .asc {
+  background-image: url(/images/up.jpg);
+}
+
+.pretty th .desc {
+  background-image: url(/images/down.jpg);
+}
 
 td.state {
 }
