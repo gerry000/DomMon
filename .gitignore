@@ -18,5 +18,5 @@
 /mnt/*/*
 
 # Ignore configs with passwords or keys
-/config/*.yaml
+/config/*.yml
 /config/*.key

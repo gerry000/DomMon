@@ -1,19 +1,77 @@
 <% @page_title = "Solaris 11 Blades" %>
+<% max_guests = 13 %> <% nn_blades = 4 %> <% op_blades = 4 %>
+<% nn_total_guests = 0 %> <% nn_total_cpu = 0 %> <% nn_used_cpu = 0 %> <% nn_total_mem = 0 %> <% nn_used_mem = 0 %>
+<% op_total_guests = 0 %> <% op_total_cpu = 0 %> <% op_used_cpu = 0 %> <% op_total_mem = 0 %> <% op_used_mem = 0 %>
+
+<br>
 <table>
 	<tr>
 		<th>Blade</th>	
+		<th>No Guests</th>	
 		<th>VCPUs</th>	
 		<th>Used VCPUs</th>	
+		<th>Free VCPUs</th>	
 		<th>Memory</th>	
 		<th>Used Memory</th>	
+		<th>Free Memory</th>	
 	</tr>
 
 	<% for node in @nodes %>
 	   <td><%= node.nodename %></td>
+		<% if (node.Num_guests / max_guests.to_f) * 100 >= 75 %>
+	   	<td class="alertred"><%= node.Num_guests %>/<%= max_guests %></td>
+		<% else %>
+	   	<td><%= node.Num_guests %>/<%= max_guests %></td>
+		<% end %>
 	   <td><%= node.Vcpus %></td>
 	   <td><%= node.Used_vcpus %></td>
+	   <td><%= node.Vcpus - node.Used_vcpus%></td>
 	   <td><%= node.max_memory %></td>
 	   <td><%= node.Used_mem %></td>
-	</tr>
+	   <td><%= node.max_memory -  node.Used_mem%></td>
+		</tr>
+
+		<% nn_total_guests += node.Num_guests if node.nodename =~ /nn/ %>
+		<% nn_total_cpu += node.Vcpus if node.nodename =~ /nn/ %>
+		<% nn_used_cpu += node.Used_vcpus if node.nodename =~ /nn/ %>
+		<% nn_total_mem += node.max_memory if node.nodename =~ /nn/ %>
+		<% nn_used_mem += node.Used_mem if node.nodename =~ /nn/ %>
+		
+		<% op_total_guests += node.Num_guests if node.nodename =~ /op/ %>
+		<% op_total_cpu += node.Vcpus if node.nodename =~ /op/ %>
+		<% op_used_cpu += node.Used_vcpus if node.nodename =~ /op/ %>
+		<% op_total_mem += node.max_memory if node.nodename =~ /op/ %>
+		<% op_used_mem += node.Used_mem if node.nodename =~ /op/ %>
 	<% end %>
+</table>
+<br>
+<table>
+	<tr>
+		<th>Data Centre</th>	
+		<th>% of Guests</th>	
+		<th>VCPU %</th>	
+		<th>Memory %</th>	
+	</tr>
+	<td>Hounsfield</td>
+	<% if (nn_total_guests / (max_guests * nn_blades).to_f) * 100 >= 50 %>
+		<td class="alertred"><%= ((nn_total_guests / (max_guests * nn_blades).to_f) * 100).round %></td>
+	<% else %>
+		<td><%= ((nn_total_guests / (max_guests * nn_blades).to_f) * 100).round %></td>
+	<% end %>
+	<td><%= ((nn_used_cpu / nn_total_cpu.to_f) * 100).round(0) %></td>
+	<td><%= ((nn_used_mem / nn_total_mem.to_f) * 100).round(0) %></td>
+	</tr>
+	<td>Brunswick</td>
+	<% if (op_total_guests / (max_guests * op_blades).to_f) * 100 >= 50 %>
+		<td class="alertred"><%= ((op_total_guests / (max_guests * op_blades).to_f) * 100).round %></td>
+	<% else %>
+		<td><%= ((op_total_guests / (max_guests * op_blades).to_f) * 100).round %></td>
+	<% end %>
+	<td><%= ((op_used_cpu / op_total_cpu.to_f) * 100).round(0) %></td>
+	<td><%= ((op_used_mem / op_total_mem.to_f) * 100).round(0) %></td>
+	</tr>
+	<td>Campus Total</td>
+	<td><%= (((op_total_guests + nn_total_guests) / ((op_blades + nn_blades) * max_guests.to_r)) * 100).round %></td>
+	<td><%= (((op_used_cpu + nn_used_cpu) / (op_total_cpu + nn_total_cpu).to_f) * 100).round(0) %></td>
+	<td><%= (((op_used_mem + nn_used_mem) / (op_total_mem + nn_total_mem).to_f) * 100).round(0) %></td>
 </table>

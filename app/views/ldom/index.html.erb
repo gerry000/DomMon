@@ -1,5 +1,16 @@
 <% @page_title = "Solaris 11 Ldoms" %>
-<h4>Sorted by <%= sort_column %></h4>
+<% updated = @ldoms.first.updated_at.to_formatted_s(:short) %>
+
+<table border=0 cellpadding="0" cellspacing="0" bgcolor="white" width=100%>
+	<tr>
+	<td>
+		<h4>Sorted by:  <%= sort_column %></h4>
+	</td>
+	<td align=right>
+		<h4 align=right>Last updated:  <%= updated %></h4> 
+	</td>
+</table>
+
 <table>
 	<tr>
 		<th><%= sortable "hostname" %></th>	
@@ -26,7 +37,11 @@
 		<% else %>
 			<td><%= ldom.running_node %></td>
 		<% end %>
-	   <td><%= ldom.flags %></td>
+		<% if ldom.flags != '-n----' %>
+		   <td class="alertred"><%= ldom.flags %></td>
+		<% else %>
+			<td><%= ldom.flags %></td>
+		<% end %>
 	   <td><%= ldom.vcpu %></td>
 	   <td><%= ldom.allocated_mem %></td>
 		<% if ldom.util >= 90 %>

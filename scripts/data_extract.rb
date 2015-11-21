@@ -9,7 +9,6 @@ $ldom_single_truth = '/var/rails/DomMon/mnt/ldoms/shared/etc/default_layout'
 $ldom_status_globpath = '/var/rails/DomMon/mnt/ldoms/shared/tmp/*.ldoms.status'
 $storage_globpath = '/var/rails/DomMon/mnt/ldoms/*_2'
 
-$blade_count = Hash.new
 $ldom_enviroment = Hash.new
 $ldom_home = Hash.new
 Ldomstat = Hash.new
@@ -59,8 +58,7 @@ Dir.glob($ldom_status_globpath) do |my_text_file|
 				default_node = $ldom_home[hostname]
 				env = $ldom_enviroment[hostname]
 				puts "ldom #{hostname} D #{default_node} C #{current_node} #{env} #{state} #{flags} #{cons} #{vcpu} #{memory} #{util} #{norm} #{uptimed} #{uptime}" if Debug_lvl != 0
-				Ldomstat[hostname] = {:default_node => default_node, :current_node => current_node, :env => env, :state => state, :flags => flags, :cons => cons, :vcpu => vcpu, :memory => memory, :util => util, :norm => norm, :uptime => uptime}
-				$blade_count[current_node] = {:used_vcpus => vcpu, :used_mem => memory}
+				Ldomstat[hostname] = {:default_node => default_node, :current_node => current_node, :env => env, :state => state, :flags => flags, :cons => cons, :vcpu => vcpu.to_i, :memory => memory.to_i, :util => util, :norm => norm, :uptime => uptime}
 			end
 		end
 	end
@@ -73,7 +71,7 @@ if Debug_lvl >= 2
 end
 
 ## Opens the database connection from the rails config
-## assignes the class and clears the last set of records
+## assignes the classes and clears the last set of ldom records
 
 ActiveRecord::Base.establish_connection( dbconfig['development'] )
 
@@ -81,6 +79,11 @@ class Ldoms < ActiveRecord::Base
 end
 
 Ldoms.delete_all()
+
+class Nodes < ActiveRecord::Base
+end
+
+Nodes.update_all "Used_vcpus = 4, Used_mem = 0, Num_guests = 0"
 
 ## Populates the table with the latest data in the hash
 
@@ -94,18 +97,12 @@ Ldomstat.each do |key, value|
 		:allocated_mem => value[:memory], 
 		:util => value[:util], 
 		:norm => value[:norm], 
-		:uptime => value[:uptime])
-end
-
-class Nodes < ActiveRecord::Base
-end
-
-## Populates the table with the latest data in the hash
-
-$blade_count.each do |key, value|
-	node = Nodes.find_by(nodename: key) 
-	node.Used_vcpus = value[:used_vcpus]
-	node.Used_mem = value[:used_mem]
+		:uptime => value[:uptime]
+	)
+	
+	node = Nodes.find_by(nodename:  value[:current_node]) 
+	node.Used_vcpus = node.Used_vcpus + value[:vcpu] if node.nodename == value[:current_node]
+	node.Used_mem = node.Used_mem + value[:memory] if node.nodename == value[:current_node]
+	node.Num_guests = node.Num_guests + 1 if node.nodename == value[:current_node]
 	node.save
 end
-

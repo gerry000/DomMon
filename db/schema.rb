@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151110142136) do
+ActiveRecord::Schema.define(version: 20151121145639) do
 
   create_table "ldoms", force: :cascade do |t|
     t.string   "hostname",      limit: 255
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20151110142136) do
     t.datetime "updated_at",                null: false
     t.string   "flags",         limit: 255
     t.integer  "vcpu",          limit: 4
+    t.string   "env",           limit: 255
   end
 
   create_table "nodes", force: :cascade do |t|
@@ -35,6 +36,10 @@ ActiveRecord::Schema.define(version: 20151110142136) do
     t.integer  "max_memory",     limit: 4
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.integer  "Vcpus",          limit: 4
+    t.integer  "Used_vcpus",     limit: 4
+    t.integer  "Used_mem",       limit: 4
+    t.integer  "Num_guests",     limit: 4
   end
 
 end

@@ -21,7 +21,7 @@ html,body {
     margin-left: 2px;
 }
 
-#header {
+#header, footer {
     height: 8%;
     background-color:black;
     color:white;
@@ -31,7 +31,16 @@ h1 {
     text-align:center;
 }
 
-.home-btn {
+a {
+    color: blue;
+}
+
+a, a:visited, a:hover, a:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+#home-btn {
     background-color:black;
     color:white;
     clear:both;

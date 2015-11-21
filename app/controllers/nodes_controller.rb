@@ -1,6 +1,7 @@
 class NodesController < ApplicationController
 	def index
-		@nodes = Node.all
+		@nodes = Node.order(:nodename)
+		@ldoms = Ldom
 	end
 
 	def new
