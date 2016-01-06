@@ -2,8 +2,13 @@ class LdomController < ApplicationController
 	helper_method :sort_column, :sort_direction
 
 	def index
-                @ldoms	 = Ldom.order(sort_column + " " + sort_direction)
+		flash.now[:notice] = "Refreshing data"
+		@refresh = %x(scripts/data_extract.rb)
+		@ldoms = Ldom.order(sort_column + " " + sort_direction)
    end
+
+	def new
+	end
 
 	private
   

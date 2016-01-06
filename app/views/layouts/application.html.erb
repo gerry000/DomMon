@@ -7,16 +7,19 @@
   <%= csrf_meta_tags %>
 	<div id="header">
 		<h1>Welcome to CiCS Cloud Monitoring Station <%= @page_title || "" %></h1>
-		<%= link_to '  Home', :welcome_index, class: "home-btn"%>
+		<%= link_to '|  Home  |', :welcome_index, class: "home-btn"%>
+		<%= link_to '|  LDoms  |', :ldom_index, class: "home-btn"%>
+		<%= link_to '|  Nodes  |', :nodes, class: "home-btn"%>
+		<%= Time.now.strftime("Current time is: %a %I/%m/%Y - %H:%M:%S")%>
 	</div>
 </head>
 
 <body>
-
+<%= flash[:notice] %>
 	<%= yield %>
-
 	<div id="footer">
 		<p>This is a CiCS internal service monitoring the Solaris systems</p>
+		<a href="https://cicswiki.shef.ac.uk/wiki/Dommon">Documentation is on the wiki</a>
 	</div>
 </body>
 </html>

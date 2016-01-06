@@ -1,0 +1,186 @@
+Inventory for influx-netapp.shef.ac.uk:
+
+   Server Statistics:
+                      Version: 2.8.1
+                   Start Time: 2015-08-07 07:03:31 +0100
+                  Config File: /etc/mcollective/server.cfg
+                  Collectives: mcollective
+              Main Collective: mcollective
+                   Process ID: 1293
+               Total Messages: 442
+      Messages Passed Filters: 365
+            Messages Filtered: 77
+             Expired Messages: 0
+                 Replies Sent: 364
+         Total Processor Time: 17335.54 seconds
+                  System Time: 20500.78 seconds
+
+   Agents:
+      discovery       package         puppet         
+      puppetral       rpcutil         service        
+      yum                                            
+
+   Data Plugins:
+      agent           collective      fact           
+      fstat                                          
+
+   Configuration Management Classes:
+    collectd                                    collectd::client                           
+    default                                     default_packages                           
+    mcollective                                 mcollective::agents                        
+    mcollective::redhat                         mcollective::server                        
+    mcollective::server::redhat                 nagios::crisp::client                      
+    nagios::defaults                            nagios::fstab                              
+    nagios::load                                nagios::puppet::client                     
+    nagios::ssh::basic                          nagios::target                             
+    nagios::unix_mem                            newrelic::os                               
+    newrelic::os::config                        newrelic::os::redhat                       
+    ntp                                         package::facter                            
+    package::locate                             package::locate::redhat                    
+    package::redhat_lsb                         package::ruby_stomp                        
+    package::yum_plugin_security                puppet                                     
+    puppet::config                              puppet::redhat                             
+    puppet::vars                                repo::newrelic                             
+    repo::newrelic::redhat                      repo::puppet                               
+    resolv_conf                                 resolv_conf::params                        
+    rhn::channel                                rhn::channel::rhel_x86_64_server_optional_6
+    sar                                         sar_service                                
+    settings                                    sheffield::cics::unix::rhn_register        
+    sheffield::facts                            sheffield::groups                          
+    sheffield::groups::exadmins                 sheffield::groups::storageadmins           
+    sheffield::groups::storageadmins            sheffield::groups::unixadm                 
+    sheffield::groups::vmadmins                 sheffield::keys                            
+    sheffield::linux::redhat::peerdns           sheffield::linux::redhat::resolvers        
+    sheffield::motd                             sheffield::users                           
+    sheffield::yum_secure                       snmp                                       
+    snmp::config                                snmp::config                               
+    sudo                                        sudo::vars                                 
+    vmware                                      vmware::redhat                             
+    vmware::scsi_timeout                        yum::puppetlabs                            
+
+   Facts:
+      architecture => x86_64
+      augeasversion => 1.0.0
+      bios_release_date => 04/14/2014
+      bios_vendor => Phoenix Technologies LTD
+      bios_version => 6.00
+      blockdevice_sda_model => Virtual disk
+      blockdevice_sda_size => 17179869184
+      blockdevice_sda_vendor => VMware
+      blockdevice_sr0_model => VMware SATA CD00
+      blockdevice_sr0_size => 3782213632
+      blockdevice_sr0_vendor => NECVMWar
+      blockdevices => sda,sr0
+      boardmanufacturer => Intel Corporation
+      boardproductname => 440BX Desktop Reference Platform
+      boardserialnumber => None
+      certificate_expiry => Sun Oct 18 10:47:57 UTC 2020
+      clientcert => influx-netapp.shef.ac.uk
+      clientnoop => false
+      clientversion => 3.7.5
+      concat_basedir => /var/lib/puppet/concat
+      domain => shef.ac.uk
+      environment => production
+      facterversion => 2.4.3
+      filesystems => ext4,iso9660
+      fqdn => influx-netapp.shef.ac.uk
+      fstab_entries => /,/boot,/var/opt/influxdb
+      gid => root
+      hardwareisa => x86_64
+      hardwaremodel => x86_64
+      has_logcheck => false
+      hostname => influx-netapp
+      id => root
+      interfaces => eth0,lo
+      ip6tables_version => 1.4.7
+      ipaddress => 172.30.2.107
+      ipaddress_eth0 => 172.30.2.107
+      ipaddress_lo => 127.0.0.1
+      iptables_version => 1.4.7
+      is_pe => false
+      is_virtual => true
+      jenkins_plugins => 
+      kernel => Linux
+      kernelmajversion => 2.6
+      kernelrelease => 2.6.32-504.12.2.el6.x86_64
+      kernelversion => 2.6.32
+      lsbdistcodename => Santiago
+      lsbdistdescription => Red Hat Enterprise Linux Server release 6.6 (Santiago)
+      lsbdistid => RedHatEnterpriseServer
+      lsbdistrelease => 6.6
+      lsbmajdistrelease => 6
+      lsbminordistrelease => 6
+      lsbrelease => :base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch
+      macaddress => 00:50:56:80:76:B4
+      macaddress_eth0 => 00:50:56:80:76:B4
+      manufacturer => VMware, Inc.
+      mcollective_agent_dir => /usr/libexec/mcollective/mcollective/agent
+      mcollective_config => /etc/mcollective/server.cfg
+      mcollective_daemonize => 0
+      mcollective_facts => /etc/mcollective/facts.yaml
+      mcollective_libdir => /usr/libexec/mcollective
+      mcollective_serverpackage => mcollective
+      mcollective_util_dir => /usr/libexec/mcollective/mcollective/util
+      mcollective_validator_dir => /usr/libexec/mcollective/mcollective/validator
+      memorysize => 1.83 GB
+      memorysize_mb => 1877.32
+      mtu_eth0 => 1500
+      mtu_lo => 65536
+      netmask => 255.255.255.0
+      netmask_eth0 => 255.255.255.0
+      netmask_lo => 255.0.0.0
+      network_eth0 => 172.30.2.0
+      network_lo => 127.0.0.0
+      networkmounts => cl4-infrastructure02-influx-n0:/snp5l_influx_netapp02
+      operatingsystem => RedHat
+      operatingsystemmajrelease => 6
+      operatingsystemrelease => 6.6
+      os => nameRedHatfamilyRedHatreleasemajor6full6.6minor6lsbdistdescriptionRed Hat Enterprise Linux Server release 6.6 (Santiago)distrelease6.6majdistrelease6release:base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarchdistidRedHatEnterpriseServerdistcodenameSantiagominordistrelease6
+      osfamily => RedHat
+      package_provider => yum
+      partitions => sda1filesystemext4uuida5a3efc6-794a-4082-857b-48806f3f69ebmount/bootsize1048576sda2filesystemLVM2_membersize32503808
+      path => /usr/bin:/sbin:/bin:/usr/sbin
+      physicalprocessorcount => 1
+      processor0 => Intel(R) Xeon(R) CPU E5-2660 0 @ 2.20GHz
+      processorcount => 1
+      processors => modelsIntel(R) Xeon(R) CPU E5-2660 0 @ 2.20GHzcount1physicalcount1
+      processorthreadcount => 1
+      productname => VMware Virtual Platform
+      ps => ps -ef
+      puppet_vardir => /var/lib/puppet
+      puppetversion => 3.7.5
+      rhn_check => failed
+      root_home => /root
+      rubyplatform => x86_64-linux
+      rubyversion => 1.8.7
+      rvm_installed => false
+      selinux => true
+      selinux_config_mode => permissive
+      selinux_config_policy => targeted
+      selinux_current_mode => permissive
+      selinux_enforced => false
+      selinux_policyversion => 24
+      serialnumber => VMware-42 00 78 59 80 9c 8c c6-05 9d 64 19 88 8b d5 10
+      serverip => 143.167.1.94
+      servername => harris.shef.ac.uk
+      serverversion => 3.7.1
+      service_provider => redhat
+      shellshock => not_vulnerable
+      sshdsakey => AAAAB3NzaC1kc3MAAACBAM5fNRNY74aJvr4WD66JQgU5ueREBvxecJ3nwVuwayZE2K2t7c2UXJGKy6xFcqJZqXYtiICRgVf8up1VeCALaxu5VKqrvoIaV9HRFKc7jap1G0ekT+Q4qZkuMxzaZ9kSarXGfYVKC3k3PYialI+xKaU+YmCZU5AxR0h6BXw0ptbhAAAAFQDktyo6QNxp9Y4a47FD6DdNiT6OhwAAAIEAobRlkAvJmKZ556EHBhQE5LpfUIdu6PMF/jj+v9ifcqF8tAng2S/T/Nt6JSm7XCv1yJc+xKuJCN2niOPrErDkZXTouuomLmcoqNqnrNzCf3Ny8y5MABDx3tsTE33HCbgm5e0BkrzgvkxBBZQb3aiMGpLIoZM8EQGmwMuStd/ujMcAAACBAJPNvFQ/JcDHmmbLPmIQDXMsg0aEWFUrAbijQHErc3IRNp/MXobSDuCIMUiISukko2pcEyy0wDjGfHT2tlmwXKg3JmK0W8gz/KYCWJPYMwkBztE9TwjBdYjw432mQq31COhE0h/B2y3HqSNkVvRORbFa1rag2pfYWUirWJY6XNAi
+      sshfp_dsa => SSHFP 2 1 54701ab1b749436e4618a186255bca79a5ac9254
+SSHFP 2 2 131938131dd1e69010271401ff83d14470bc47abcfc089617e6d06847c81dee5
+      sshfp_rsa => SSHFP 1 1 6f0de5bf6980efa0f509aa103da80b9c94be8be3
+SSHFP 1 2 2d779bcbdcfb38e2e7617e8c5a7b68943379191f6362c258b1e531ee014ce10f
+      sshrsakey => AAAAB3NzaC1yc2EAAAABIwAAAQEA5X1Sm/BhlK/xbSUROuzkVdlxTUk1qqREzomC6vUbiSBPhy2AFG6P+MjPS1xikzBoeJJVBzXVK9ATj24uIs/ey2ZtENGU3Hun8YhjP8VXvMCV9TlIsTpHpxyUEI8MRG/FT5ruudnHGtOQzb+JLC61w9XrWH8m0Fusefn9fPZpUFb37v5MQgD5GuJUIXINnbEsyMi3ugV6XYhYGj8uXXuXbByFvLZkzqmsyHtbuN7P0NujwL+215hRyVTbBexu6xpJWLp6TsI74IZihSHiT7OxGuQPa7S04Zgv+G2O+JSr8eo6yhgXhBTKaHD4VahbK1a6UbcBBqF5mq4uH0J5gcieOw==
+      staging_http_get => curl
+      swapsize => 1.59 GB
+      swapsize_mb => 1632.00
+      system_uptime => uptime152 dayshours3650days152seconds13142030
+      timezone => GMT
+      type => Other
+      uniqueid => 1eac6b02
+      users => root,bin,daemon,adm,lp,sync,shutdown,halt,mail,uucp,operator,games,gopher,ftp,nobody,dbus,vcsa,abrt,haldaemon,ntp,saslauth,postfix,sshd,tcpdump,rpc,rpcuser,nfsnobody,puppet,cs1ddb,cs1dgw,cs1jsh,cs1trp,ad1mt,newrelic,cs1spk,cs1ah,cs1smh,influxdb,sa_cs1ab,sa_cs1dgw,cs1ijb,sa_ad1mt,sa_cs1ddb,sa_cs1jsh
+      uuid => 42007859-809C-8CC6-059D-6419888BD510
+      virtual => vmware
+      waiting_security_updates => 94
+      waiting_updates => 168
